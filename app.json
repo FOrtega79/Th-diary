@@ -36,19 +36,6 @@
           "photosPermission": "Therian Diary needs access to your photo library to set a profile picture.",
           "cameraPermission": "Therian Diary needs camera access to take a profile photo."
         }
-      ],
-      [
-        "react-native-google-mobile-ads",
-        {
-          "androidAppId": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX",
-          "iosAppId": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX"
-        }
-      ],
-      [
-        "react-native-purchases",
-        {
-          "enableCustomEntitlementComputation": false
-        }
       ]
     ],
     "experiments": {
