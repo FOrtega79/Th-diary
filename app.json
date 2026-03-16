@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "Therian Diary",
+    "slug": "therian-diary",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "theriandiary",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#1A2421"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourcompany.theriandiary",
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Therian Diary needs access to your photo library to let you set a profile picture.",
+        "NSCameraUsageDescription": "Therian Diary needs camera access to take a profile photo.",
+        "NSUserTrackingUsageDescription": "We use your data to show you relevant ads and improve the app experience.",
+        "GADApplicationIdentifier": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX"
+      }
+    },
+    "android": {
+      "package": "com.yourcompany.theriandiary",
+      "adaptiveIcon": {
+        "backgroundColor": "#1A2421"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-apple-authentication",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Therian Diary needs access to your photo library to set a profile picture.",
+          "cameraPermission": "Therian Diary needs camera access to take a profile photo."
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX",
+          "iosAppId": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX"
+        }
+      ],
+      [
+        "react-native-purchases",
+        {
+          "enableCustomEntitlementComputation": false
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "YOUR_EAS_PROJECT_ID"
+      }
+    }
+  }
+}

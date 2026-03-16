@@ -1,112 +1,108 @@
-# Therian Diary — iOS App
+# Therian Diary — React Native (Expo)
 
-A beautifully crafted iOS journaling app for the alterhuman community to log shifts, track experiences, and connect with their Pack.
+A beautifully crafted iOS & Android journaling app for the alterhuman community. Built with Expo (managed workflow) so you can develop entirely on **Windows** and ship to both platforms from the cloud.
 
 ---
 
-## Building from Windows (No Mac Required)
-
-You don't need a Mac to work on this project. All building and validation happens automatically in the cloud via **GitHub Actions** on a macOS runner every time you push.
-
-### Your Windows workflow
+## Windows Development Workflow
 
 ```
-Edit code on Windows (VS Code, Notepad++, any editor)
+Edit code in VS Code on Windows
         ↓
-git add . && git commit && git push
+npx expo start
         ↓
-GitHub Actions runs on a cloud Mac automatically:
-  1. Installs XcodeGen → generates .xcodeproj
-  2. Runs pod install
-  3. Builds the app for the iOS simulator
-  4. Runs unit tests
+Scan QR code with Expo Go on your iPhone → live preview instantly
         ↓
-Green checkmark = your code compiles and tests pass
+git push  →  GitHub Actions runs EAS Build in Expo's cloud
+        ↓
+✅ iOS .ipa  /  🤖 Android .apk  — no Mac, no Xcode ever needed
 ```
-
-### Watch your builds
-
-1. Push any commit to `claude/**` or `main`
-2. Go to your repo on GitHub → **Actions** tab
-3. Click the running workflow to watch live logs
-4. A green tick means the build succeeded
-
-### To submit to the App Store (one-time Mac needed)
-
-You need a Mac **only once** to:
-- Set up your Apple Developer account signing certificates
-- Upload the first build to App Store Connect
-
-After that, the **"Archive for TestFlight"** job in GitHub Actions can do it automatically (triggered manually from the Actions tab).
-
-**Free Mac options:**
-- [MacStadium](https://www.macstadium.com) — hourly cloud Mac
-- [MacInCloud](https://www.macincloud.com) — pay-per-use
-- A friend's Mac for the one-time signing setup
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Language | Swift 5.9+ |
-| UI Framework | SwiftUI (iOS 16+) |
-| Architecture | MVVM |
-| Project generation | XcodeGen |
-| Dependencies | CocoaPods |
-| Backend | Firebase (Auth · Firestore · Storage · Crashlytics · Analytics) |
-| Subscriptions | RevenueCat |
-| Ads | Google AdMob (Rewarded) |
-| Images | SDWebImageSwiftUI |
-| Animations | Lottie |
+| Layer | Library |
+|---|---|
+| Framework | Expo SDK 51 (managed workflow) |
+| Navigation | Expo Router v3 (file-based) |
+| UI Animations | React Native Reanimated 3 |
+| Glassmorphism | expo-blur |
+| State | Zustand |
+| Backend | Firebase JS SDK v10 (Auth · Firestore · Storage) |
+| Auth | expo-apple-authentication · expo-auth-session (Google) |
+| Subscriptions | RevenueCat (react-native-purchases) |
+| Ads | Google AdMob (react-native-google-mobile-ads) |
+| Fonts | Playfair Display (@expo-google-fonts) |
+| Images | expo-image |
+| Haptics | expo-haptics |
 
 ---
 
 ## Project Structure
 
 ```
-Th-diary/
-├── project.yml                    ← XcodeGen spec (generates .xcodeproj)
-├── Podfile                        ← CocoaPods dependencies
-├── ExportOptions.plist            ← Used by CI for TestFlight archive
-├── .github/workflows/build.yml   ← GitHub Actions CI (cloud Mac)
-│
-└── TherianDiary/
-    ├── AppDelegate.swift
-    ├── TherianDiaryApp.swift
-    ├── Info.plist
-    ├── TherianDiary.entitlements  ← Apple Sign-In capability
-    ├── GoogleService-Info.plist   ← ⚠️ Replace with your real Firebase file
-    │
-    ├── Core/
-    │   ├── Theme/AppTheme.swift   — Colors, gradients, typography
-    │   ├── Extensions/            — Glassmorphic & press-scale modifiers
-    │   └── Haptics/HapticsManager.swift
-    │
-    ├── Models/                    — User, Shift, PackRequest
-    ├── Services/                  — Auth, Firestore, Storage, RevenueCat, AdMob
-    ├── ViewModels/                — AuthVM, HomeVM, LogShiftVM, PackVM, ProfileVM, StatsVM
-    └── Views/
-        ├── Splash / Auth / Onboarding / Main
-        ├── Home/  (+ Components: StatsCard, LatestEntryCard, LogShiftButton)
-        ├── Shift / Pack / Profile / Stats
-        ├── Paywall/
-        └── Components/  (ProBanner)
+app/
+├── _layout.tsx          ← Root layout (fonts, Firebase listener, auth state)
+├── index.tsx            ← Smart redirect (splash → auth/onboarding/home)
+├── log-shift.tsx        ← Modal: log a new shift
+├── paywall.tsx          ← Modal: Therian Pro paywall
+├── (auth)/
+│   ├── login.tsx        ← Apple + Google Sign-In
+│   └── onboarding.tsx   ← Theriotype picker + username
+└── (tabs)/
+    ├── index.tsx        ← Home (dashboard)
+    ├── pack.tsx         ← The Pack (social)
+    ├── stats.tsx        ← Stats & charts
+    └── profile.tsx      ← Profile + settings
+
+components/              ← GlassCard, LogShiftButton, ProBanner, StatsCard…
+services/                ← firebase, auth, firestore, storage, revenuecat, admob
+store/                   ← Zustand stores (auth, shifts, pack, purchases, ad unlocks)
+hooks/                   ← useHaptics, usePaywall
+constants/               ← theme.ts (colors, fonts, spacing), types.ts
 ```
 
 ---
 
-## First-Time Setup
+## Quick Start (Windows)
 
-### Step 1 — Firebase project
+### 1. Install Node.js
+Download from [nodejs.org](https://nodejs.org) (LTS version).
 
-1. Go to [console.firebase.google.com](https://console.firebase.google.com) → create a project
-2. Add an **iOS app** with bundle ID `com.yourcompany.theriandiary`
-3. Download **GoogleService-Info.plist** and **replace** the placeholder at `TherianDiary/GoogleService-Info.plist`
-4. Enable **Authentication** → providers: Apple, Google
-5. Create a **Firestore Database** (production mode), then paste these security rules:
+### 2. Install Expo CLI + EAS CLI
+```powershell
+npm install -g expo-cli eas-cli
+```
 
+### 3. Clone & install dependencies
+```powershell
+git clone https://github.com/FOrtega79/Th-diary.git
+cd Th-diary
+npm install
+```
+
+### 4. Start the dev server
+```powershell
+npx expo start
+```
+Scan the QR code with **Expo Go** (free on App Store / Play Store).
+
+> **Note:** Some native features (Apple Sign-In, RevenueCat, AdMob) require a **development build** instead of Expo Go. Run `eas build --profile development --platform ios` once — EAS builds it in the cloud and sends you a download link.
+
+---
+
+## Configuration Checklist
+
+### Firebase
+1. [Create a project](https://console.firebase.google.com)
+2. Add an iOS app (bundle ID: `com.yourcompany.theriandiary`)
+3. Enable **Auth** → Apple, Google providers
+4. Create **Firestore** database → paste security rules below
+5. Enable **Storage**
+6. Open `services/firebase.ts` and replace all `YOUR_*` values
+
+#### Firestore Security Rules
 ```
 rules_version = '2';
 service cloud.firestore {
@@ -120,8 +116,8 @@ service cloud.firestore {
                          || request.auth.uid == request.resource.data.userId;
     }
     match /packRequests/{requestId} {
-      allow read: if request.auth.uid == resource.data.fromUserId
-                  || request.auth.uid == resource.data.toUserId;
+      allow read:   if request.auth.uid == resource.data.fromUserId
+                    || request.auth.uid == resource.data.toUserId;
       allow create: if request.auth.uid == request.resource.data.fromUserId;
       allow update: if request.auth.uid == resource.data.toUserId;
     }
@@ -129,58 +125,62 @@ service cloud.firestore {
 }
 ```
 
-6. Enable **Firebase Storage**
+### Google Sign-In (Firebase)
+In `services/auth.ts`, replace:
+- `YOUR_EXPO_CLIENT_ID`
+- `YOUR_IOS_CLIENT_ID`
+- `YOUR_ANDROID_CLIENT_ID`
 
-### Step 2 — RevenueCat
+Get these from Firebase Console → Auth → Google provider → Web SDK configuration.
 
+### RevenueCat
 1. Sign up at [app.revenuecat.com](https://app.revenuecat.com)
-2. Create a project, link your iOS app
-3. Create an **Entitlement** named `therian_pro`
-4. Create **Offerings** — one monthly product, one annual product (with 3-day free trial)
-5. Open `TherianDiary/Services/RevenueCatService.swift` and replace `YOUR_REVENUECAT_API_KEY`
+2. Create entitlement: `therian_pro`
+3. Create offerings: monthly + annual (3-day free trial on annual)
+4. Replace keys in `services/revenuecat.ts`
 
-### Step 3 — AdMob
+### AdMob
+1. Create account at [admob.google.com](https://admob.google.com)
+2. Register app → create a **Rewarded** ad unit
+3. Replace App ID in `app.json` → `ios.infoPlist.GADApplicationIdentifier`
+4. Replace ad unit ID in `services/admob.ts`
 
-1. Create an account at [admob.google.com](https://admob.google.com)
-2. Register your app, create a **Rewarded** ad unit
-3. In `TherianDiary/Info.plist` replace `ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX` with your real AdMob App ID
-4. In `TherianDiary/Services/AdMobService.swift` replace `rewardedAdUnitID` with your real Rewarded ad unit ID
-
-### Step 4 — GitHub secrets (for CI builds)
-
-In your GitHub repo → **Settings → Secrets and variables → Actions**, add:
-
-| Secret name | Value |
-|---|---|
-| `GOOGLE_SERVICE_INFO_PLIST` | Paste the full contents of your `GoogleService-Info.plist` |
-| `DISTRIBUTION_CERTIFICATE_BASE64` | Base64-encoded `.p12` distribution cert (for archive job) |
-| `DISTRIBUTION_CERTIFICATE_PASSWORD` | Password for the `.p12` file |
-| `PROVISIONING_PROFILE_BASE64` | Base64-encoded App Store provisioning profile |
-
-The `GOOGLE_SERVICE_INFO_PLIST` secret is the only one needed for the regular build job. The certificate secrets are only needed for the optional "Archive for TestFlight" manual job.
-
-### Step 5 — Push and watch it build
-
-```bash
-git add .
-git commit -m "configure secrets"
-git push
-```
-
-Then go to the **Actions** tab on GitHub and watch the build.
+### EAS (for cloud builds)
+1. Sign up at [expo.dev](https://expo.dev)
+2. `eas login`
+3. `eas init` → updates `app.json` with your `projectId`
+4. Update `eas.json` with your Apple ID and Team ID
 
 ---
 
-## Info.plist values to update
+## Building without a Mac
 
-| Key | Where | What to replace |
-|---|---|---|
-| `CFBundleIdentifier` | Info.plist | `com.yourcompany.theriandiary` |
-| `GADApplicationIdentifier` | Info.plist | Your AdMob App ID |
-| `CFBundleURLSchemes` | Info.plist | Your reversed Google client ID |
-| `YOUR_REVENUECAT_API_KEY` | RevenueCatService.swift | RevenueCat public key |
-| `rewardedAdUnitID` | AdMobService.swift | AdMob rewarded ad unit ID |
-| `YOUR_TEAM_ID` | ExportOptions.plist | Your Apple Developer Team ID |
+### Option 1 — Expo Go (instant, no build needed)
+`npx expo start` → scan QR. Works for most UI work. Native modules (Sign-In, RevenueCat, AdMob) won't load in Expo Go.
+
+### Option 2 — EAS Development Build (recommended)
+```powershell
+eas build --profile development --platform ios
+```
+EAS builds on a cloud Mac. You get a download link to install on your iPhone. After this, `npx expo start` serves updates instantly to this build.
+
+### Option 3 — Production build for App Store
+```powershell
+eas build --profile production --platform ios
+eas submit --platform ios
+```
+Or trigger from **GitHub Actions → Actions tab → EAS Build → Run workflow**.
+
+---
+
+## GitHub Actions CI
+
+Every push to `claude/**` or `main`:
+1. Runs TypeScript type-check and lint on Ubuntu (free, fast)
+2. Optionally triggers EAS Build (manual dispatch from Actions tab)
+
+To enable EAS builds in CI, add `EXPO_TOKEN` to your GitHub secrets:
+- [expo.dev](https://expo.dev) → Account → Access Tokens → Create
 
 ---
 
@@ -188,14 +188,14 @@ Then go to the **Actions** tab on GitHub and watch the build.
 
 ```
 Free User
-  ├─ Max 5 Pack members → Paywall  OR  Watch Ad (24h slot)
-  ├─ Edit bio → Watch Ad (24h)  OR  Paywall
-  └─ Stats chart blurred → Watch Ad (24h)  OR  Paywall
+  ├─ 5 Pack members max  →  Paywall  OR  Watch Ad (24h slot)
+  ├─ Edit bio             →  Watch Ad (24h)  OR  Paywall
+  └─ Stats charts blurred →  Watch Ad (24h)  OR  Paywall
 
 Therian Pro (RevenueCat)
-  ├─ Up to 20 Pack members
+  ├─ 20 Pack members
   ├─ Custom bio, avatar, secondary theriotype
-  ├─ Full stats & charts
+  ├─ Full stats
   └─ No ads
 ```
 
@@ -209,11 +209,22 @@ Therian Pro (RevenueCat)
 | Pine Medium | `#2C4C3B` |
 | Soil (Accent) | `#C85A28` |
 | Moonlit (Background) | `#F5F7F2` |
-| Corner radius | 24 pt |
-| Typography | New York (serif headers) · SF Pro Rounded (body) |
+| Border radius | 24 pt |
+| Headers | Playfair Display (serif) |
+| Body | System rounded (SF Pro Rounded on iOS) |
+
+---
+
+## Android (when you're ready)
+
+The app already supports Android. Just run:
+```powershell
+eas build --profile production --platform android
+eas submit --platform android
+```
+You'll need a Google Play developer account ($25 one-time fee). The same Firebase project works for both platforms.
 
 ---
 
 ## License
-
 Private — All Rights Reserved
