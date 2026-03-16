@@ -46,10 +46,8 @@ export async function signInWithApple(): Promise<void> {
 // Returns the hook result tuple; call promptAsync() from your component.
 export function useGoogleAuth() {
   return Google.useAuthRequest({
-    // Replace with your IDs from Firebase Console → Auth → Google provider
-    clientId:        'YOUR_EXPO_CLIENT_ID.apps.googleusercontent.com',
-    iosClientId:     'YOUR_IOS_CLIENT_ID.apps.googleusercontent.com',
-    androidClientId: 'YOUR_ANDROID_CLIENT_ID.apps.googleusercontent.com',
+    clientId:        '641148007074-9250ojr4nhtaihf1857ft0kdvv5jd3sf.apps.googleusercontent.com',
+    iosClientId:     'com.googleusercontent.apps.641148007074-nntukdre5mbp7qhfr9fgkorfj42cj2bi',
   });
 }
 
