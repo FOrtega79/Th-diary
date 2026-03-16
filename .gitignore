@@ -1,0 +1,53 @@
+# ─── Xcode ────────────────────────────────────────────────────────────────────
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+
+xcuserdata/
+*.moved-aside
+DerivedData/
+*.hmap
+*.ipa
+*.xcarchive
+*.dSYM.zip
+*.dSYM
+
+# ─── CocoaPods ────────────────────────────────────────────────────────────────
+# Uncomment if you commit the Pods/ directory (not recommended for CI):
+Pods/
+*.xcworkspace
+
+# ─── Swift Package Manager ────────────────────────────────────────────────────
+.build/
+.swiftpm/
+
+# ─── XcodeGen ────────────────────────────────────────────────────────────────
+# The generated .xcodeproj is ignored — regenerate with `xcodegen generate`
+*.xcodeproj/
+
+# ─── macOS ────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ─── Firebase ────────────────────────────────────────────────────────────────
+# ⚠️  Do NOT commit your real GoogleService-Info.plist to a public repo.
+# Keep it in environment secrets and inject it during CI builds.
+# TherianDiary/GoogleService-Info.plist
+
+# ─── Environment / secrets ────────────────────────────────────────────────────
+.env
+*.secret
+secrets.xcconfig
+
+# ─── Build artifacts ─────────────────────────────────────────────────────────
+build/
+*.o
+*.a
