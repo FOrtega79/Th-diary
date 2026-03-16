@@ -18,7 +18,14 @@
         "NSPhotoLibraryUsageDescription": "Therian Diary needs access to your photo library to let you set a profile picture.",
         "NSCameraUsageDescription": "Therian Diary needs camera access to take a profile photo.",
         "NSUserTrackingUsageDescription": "We use your data to show you relevant ads and improve the app experience.",
-        "GADApplicationIdentifier": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX"
+        "GADApplicationIdentifier": "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.641148007074-nntukdre5mbp7qhfr9fgkorfj42cj2bi"
+            ]
+          }
+        ]
       }
     },
     "android": {
