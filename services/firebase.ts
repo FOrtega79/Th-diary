@@ -9,12 +9,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Firebase Console → Project Settings → Your apps → SDK setup and configuration
 // ─────────────────────────────────────────────────────────────────────────────
 const firebaseConfig = {
-  apiKey:            'YOUR_API_KEY',
-  authDomain:        'YOUR_PROJECT_ID.firebaseapp.com',
-  projectId:         'YOUR_PROJECT_ID',
-  storageBucket:     'YOUR_PROJECT_ID.appspot.com',
-  messagingSenderId: 'YOUR_SENDER_ID',
-  appId:             'YOUR_APP_ID',
+  apiKey:            'AIzaSyArGKzMokZ4nRTcrMr0akWS-ijk2BcHN2c',
+  authDomain:        'th-diary.firebaseapp.com',
+  projectId:         'th-diary',
+  storageBucket:     'th-diary.appspot.com',
+  messagingSenderId: '641148007074',
+  appId:             '1:641148007074:ios:f24e2c093fe346b5aa5dfb',
 };
 
 // Prevent duplicate initialization (hot reload)
